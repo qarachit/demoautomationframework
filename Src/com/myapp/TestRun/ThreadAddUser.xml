@@ -1,0 +1,18 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="my app test suite" verbose="1"  parallel="methods" data-provider-thread-count="5" preserve-order="true">   
+
+
+	<listeners>
+         <listener class-name="com.library.Utils.TestNGCustomReportListener" />
+    </listeners> 
+
+  <test name="Add User TestCases">
+    <classes>
+      <class name="com.myapp.Tests.AddUser">
+      	<methods>
+       		<include name="addUserFromExcel" />
+       	</methods>
+      </class>
+    </classes>
+ </test>
+</suite>

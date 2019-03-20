@@ -1,0 +1,16 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="lets run it" parallel="none" >
+	<listeners>
+         <listener class-name="com.library.Utils.TestNGCustomReportListener" />
+    </listeners> 
+	
+  <test name="Add User TestCases">
+    <classes>
+      <class name="com.myapp.Tests.AddUser">
+      <methods>
+        <include name="testSendEmail" />
+      </methods>
+      </class>
+    </classes>
+ </test>
+</suite>

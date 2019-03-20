@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE project [
+]>
+
+<project name="myproject" basedir=".">  
+
+<!-- ========== Initialize Properties =================================== -->
+    <property environment="env"/>
+	<property name="testng.testrun.listeners" value="com.library.Utils.TestNGCustomReportListener"/>
+    <property file="./build.properties"/>
+	
+    <target name="setClassPath" unless="test.classpath">
+        <path id="classpath_jars">
+            <fileset dir="${ws.home}/libs" includes="*.jar"/>
+        </path>
+        <pathconvert pathsep=":" 
+            property="test.classpath" 
+            refid="classpath_jars"/>
+    </target>
+
+    <target name="init" depends="setClassPath">
+        <tstamp>
+            <format property="start.time" pattern="MM/dd/yyyy hh:mm aa" />
+        </tstamp>
+        <condition property="ANT" 
+            value="${env.ANT_HOME}/bin/ant.bat" 
+            else="${env.ANT_HOME}/bin/ant">
+                    <os family="windows" />
+        </condition>
+        <taskdef name="testng" classpath="${test.classpath}"
+             classname="org.testng.TestNGAntTask" /> 
+    </target>
+  
+    <!-- clean -->
+    <target name="clean">
+        <delete dir="${test.dest}"/>
+    </target>
+
+    <!-- compile -->
+    <target name="compile" depends="init, clean" > 
+		<delete includeemptydirs="true" quiet="true">
+            <fileset dir="${test.dest}" includes="**/*"/>
+		</delete>
+        <echo message="making directory..."/>
+		<mkdir dir="${test.dest}"/>
+        <!-- <echo message="classpath: ${test.classpath}"/> -->
+        <echo message="compiling..."/>
+         <javac
+            debug="true" 
+            destdir="${test.dest}" 
+            includes="*/*.java" 
+           	srcdir="${test.src}:${test.srcLib}"  
+         	target="1.8"
+            classpath="${test.classpath}"  
+        ></javac>
+
+      </target>
+
+    <!-- bin -->
+    <target name="build" depends="init">
+    </target>
+
+    <!-- run -->	
+	
+	<target name="CreateUser" depends="compile,init">
+        <testng classpath="${test.classpath}:${test.dest}"  suitename="my app test suite">	
+        	<reporter classname="org.testng.reporters.XMLReporter">
+        	       <property name="generateTestResultAttributes" value="true"/>
+        	    </reporter> 
+            <xmlfileset dir="${ws.home}/Src/com/myapp/TestRun"  includes="AddUser.xml"/>			
+        </testng>   
+    </target>
+	
+	<target name="TestUser" depends="compile,init">
+	        <testng classpath="${test.classpath}:${test.dest}"  suitename="my app test suite">	
+	        	<reporter classname="org.testng.reporters.XMLReporter">
+	        	       <property name="generateTestResultAttributes" value="true"/>
+	        	    </reporter> 
+	            <xmlfileset dir="${ws.home}/Src/com/myapp/TestRun"  includes="CheckMe.xml"/>			
+	        </testng>   
+	    </target>
+
+	<target name="User" depends="compile,init">
+	<testng classpath="${test.classpath}:${test.dest}"  suitename="my app test suite">
+		<reporter classname="org.testng.reporters.XMLReporter">
+			<property name="generateTestResultAttributes" value="true"/>
+			<!--
+			<property name="User.listeners" value="com.library.Utils.listener.AdaptiveReportListener, com.library.Utils.listener.AdaptiveTestRailListener"/>
+			<property name="User.listeners" value="com.library.Utils.listener.AdaptiveReportListener,com.library.Utils.listener.AdaptiveTestRailListener"/>
+			
+		****************** -->
+		</reporter>
+		<xmlfileset dir="${ws.home}/Src/com/myapp/TestRun"  includes="useinjenkins.xml"/>
+	</testng>
+	<delete file="${testng.reportdir}/overview.html"/>
+	<copy file="test-output/emailable-report.html" todir="${testng.reportdir}"/>
+	<copy file="test-output/selenium-automation-report.html" todir="${testng.reportdir}"/>
+	</target>
+    <!-- ****************** targets not used ****************** -->
+ 
+	<target name="makexsltreports">
+		<mkdir dir="${ws.home}/XSLT_Reports/output"/>
+		<path id="test.c">
+			<fileset dir="${ws.home}/libs" includes="*.jar"/>
+		</path>
+		<xslt in="test-output/testng-results.xml" style="xslt/testng-results.xsl" out="${ws.home}/XSLT_Reports/output/index.html" classpathref="test.c" processor="SaxonLiaison">
+			<param name="testNgXslt.outputDir" expression="${ws.home}/XSLT_Reports/output/"/>
+			<param name="testNgXslt.showRuntimeTotals" expression="true"/>
+		</xslt>
+		<copy file="XSLT_Reports/output/overview.html" todir="${testng.reportdir}" />
+		<copy file="XSLT_Reports/output/overview-chart.svg" todir="${testng.reportdir}" />
+		<copy file="XSLT_Reports/output/main.js" todir="${testng.reportdir}" />
+	</target>
+	
+</project>

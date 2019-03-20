@@ -1,0 +1,19 @@
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite name="my app test suite" verbose="3"  parallel="none" thread-count="2" preserve-order="true">   
+
+
+	<listeners>
+         <listener class-name="com.library.Utils.TestNGCustomReportListener" />
+    </listeners> 
+
+	
+  <test name="Add User TestCases">
+    <classes>
+      <class name="com.myapp.Tests.AddUser">
+      	<methods>
+       		<include name="testAddUser" />
+       	</methods>
+      </class>
+    </classes>
+ </test>
+</suite>

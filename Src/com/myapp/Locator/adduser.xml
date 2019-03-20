@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<Locators>
+	<adduser>
+		<name><![CDATA[//input[@name='name']]]></name>
+		<email><![CDATA[//input[@name='email']]]></email>
+		<savebutton><![CDATA[//*[@name='submit']]]></savebutton>
+		<emailcheck><![CDATA[//*[@class='text-danger']]]></emailcheck>
+		<usercheck><![CDATA[//div[text()='User Added!!']]]></usercheck>
+	</adduser>
+</Locators>
