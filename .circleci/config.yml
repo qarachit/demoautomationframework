@@ -1,1 +1,10 @@
-
+version: 2.0
+jobs:
+  build:
+    docker:
+      - image: circleci/openjdk:8-jdk
+    steps:
+      - checkout
+      - run: 
+          name: ant -lib lib/ -buildfile ../build.xml
+          command: ant -lib lib/ -buildfile ../build.xml
