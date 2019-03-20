@@ -4,4 +4,4 @@ script:
   # Fetching latest code from  git
   - git pull origin master
   # Running test!
-  - ant TestUser -buildfile build.xml
+  - ant TestUser -lib lib/ -buildfile build.xml
