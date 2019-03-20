@@ -6,5 +6,5 @@ jobs:
     steps:
       - checkout
       - run: 
-          name: ant -lib lib/ -buildfile ../build.xml
-          command: ant -lib lib/ -buildfile ../build.xml
+          name: ant -lib lib/ -buildfile build.xml
+          command: ant -lib lib/ -buildfile build.xml
