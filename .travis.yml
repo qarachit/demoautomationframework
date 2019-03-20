@@ -1,1 +1,7 @@
-
+language: java
+install: ant deps
+script:
+  # Fetching latest code from  git
+  - git pull origin master
+  # Running test!
+  - ant TestUser -buildfile build.xml
