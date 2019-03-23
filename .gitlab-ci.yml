@@ -1,0 +1,5 @@
+image: java
+job:
+  script:
+    ant TestUser
+     
