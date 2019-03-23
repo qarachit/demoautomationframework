@@ -1,4 +1,9 @@
-image: java
+image: openjdk:8
+
+before_script:
+  - apt-get update
+  - apt-get -y install ant
+  
 job:
   script:
     ant TestUser
